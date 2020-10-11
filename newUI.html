@@ -1,0 +1,146 @@
+<head>
+    <title>Rock, Paper, Scissors</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Monofett&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Modak&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Chewy&display=swap" rel="stylesheet">
+</head>
+    
+<body>
+    <div id='container'>
+        <div id='title'>
+            <h1>Rock, Paper, Scissors!</h1>
+        </div>
+
+        <div id='infoContainer'>
+            
+            <div id='round'></div>
+            <div id='userWins'></div>
+            <div id='computerWins'></div>
+        </div>
+
+        <div id='buttonContainer'>
+            <button id='ROCK'>ROCK</button>
+            <button id='PAPER'>PAPER</button>
+            <button id='SCISSORS'>SCISSORS</button>
+        </div>
+
+    </div>
+</body>
+
+
+
+<script>
+
+let computerSelection;
+let playerSelection;
+let userWins = 0;
+let computerWins = 0;
+let round = 1;
+
+const titleDiv = document.querySelector('#title');
+const roundDiv = document.querySelector('#round');
+const userDiv = document.querySelector('#userWins')
+const computerDiv = document.querySelector('#computerWins')
+
+const roundDisplay = document.createElement('h2');
+roundDisplay.classList.add('counter');
+roundDiv.appendChild(roundDisplay);
+roundDisplay.textContent = `Round ${round}`;
+
+const userWinDisplay = document.createElement('h3');
+userWinDisplay.classList.add('counter');
+userDiv.appendChild(userWinDisplay);
+
+const computerWinDisplay = document.createElement('h3');
+computerWinDisplay.classList.add('counter');
+computerDiv.appendChild(computerWinDisplay);
+
+
+function computerPlay() {
+    let computerOptions = ["Rock", "Paper", "Scissors"];
+    let randomChoice = Math.floor(Math.random() * computerOptions.length);
+    computerSelection = computerOptions[randomChoice];
+    return computerSelection;
+}
+
+function gameRound() {
+    round += 1;
+    computerPlay();
+    roundResult();
+    if (round === 6) {
+        gameResult();
+    }
+}
+
+function roundResult() {
+    if (playerSelection === "ROCK" && computerSelection === "Scissors") {
+        userWins += 1;
+        alert("Rock beats Scissors. You win!");
+        
+    } else if (playerSelection === "ROCK" && computerSelection === "Paper") {
+        computerWins += 1;
+        alert("Paper beats rock. You lose...");
+        
+    } else if (playerSelection === "ROCK" && computerSelection === "Rock") {
+        alert("Two Rocks?! It's a tie!");
+
+    } else if (playerSelection === "PAPER" && computerSelection === "Scissors") {
+        computerWins += 1;
+        alert("Scissors beat Paper. You lose...");
+        
+    } else if (playerSelection === "PAPER" && computerSelection === "Rock") {
+        userWins += 1;
+        alert("Paper beats rock. You win!");
+        
+    } else if (playerSelection === "PAPER" && computerSelection === "Paper") {
+        alert("Two Papers?! It's a tie.");
+
+    } else if (playerSelection === "SCISSORS" && computerSelection === "Scissors") {
+        alert("Two pairs of Scissors?! It's a tie.");
+
+    } else if (playerSelection === "SCISSORS" && computerSelection === "Rock") {
+        computerWins += 1;
+        alert("Rock beats Scissors. You lose...");
+        
+    } else if (playerSelection === "SCISSORS" && computerSelection === "Paper") {
+        userWins += 1;
+        alert("Scissors beat Paper. You win!");
+        
+    } 
+    
+}
+
+function gameResult() {
+
+        if (userWins > computerWins) {
+            alert(`You won ${userWins} rounds. You win the game!`);
+        } else if (userWins < computerWins) {
+            alert(`You won ${userWins} rounds. You lose the game...`);
+        } else {
+            alert(`You both won ${userWins} rounds?! IMPOSSIBLE!`);
+        };
+        round = 1;
+        userWins = 0;
+        computerWins = 0;
+}
+
+
+
+
+const buttons = document.querySelectorAll("button");
+buttons.forEach((button)=> {
+    button.addEventListener('click', ()=> {
+        playerSelection = button.id;
+        gameRound();
+        roundDisplay.textContent = `Round ${round}`;
+    
+
+        userWinDisplay.textContent = `Rounds won: ${userWins}`;
+    
+
+        computerWinDisplay.textContent = `Rounds lost: ${computerWins}`;
+    });
+});
+
+</script>
